@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}New Post{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="dateTime">Available slots</label>
+    <input type="datetime-local" name="dateTime" id="dateTime" value="{{ request.form['dateTime']}}">
+
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

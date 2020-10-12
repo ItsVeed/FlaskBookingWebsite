@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Bookings{% endblock %}</h1>
+  {% if g.user %}
+  <a class="action" href="{{ url_for('bookings.create') }}">Book appointment</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for booking in bookings %}
+  <article class="booking">
+    <header>
+      <div>
+        <h1>{{ booking['datetime'] }}</h1>
+      {% if g.user['id'] == booking['patient_id'] %}
+        <a class="action" href="{{ url_for('bookings.update', id=booking['id']) }}">Edit</a>
+      {% endif %}
+    </header>
+    <p class="reason">{{ booking['reason'] }}</p>
+  </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

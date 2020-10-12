@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Admin{% endblock %}</h1>
+  <a class="action" href="{{ url_for('bookings.createSlot') }}">Add Booking Slot</a>
+{% endblock %}
+
+{% block content %}
+    <table style="width: 100%;">
+        <tr>
+            <th>Date/Time</th>
+            <th>Booked</th>
+            <th>Patient</th>
+            <th>reason</th>
+            <th>Actions</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <th>{{booking['datetime']}}</th>
+            {% if booking['booked'] == 1 %}
+                <th>True</th>
+                {% for user in users %}
+                {% if user['id'] == booking['patient_id'] %}
+                <th>{{user['firstname'] + ' ' + user['lastname']}}</th>
+                {% endif %}
+                {% endfor %}
+                <th>{{booking['reason']}}</th>
+                <th>
+                    <ul id="actions">
+                        <li><a href="{{ url_for('bookings.updateAdmin', id=booking['id'])}}">Edit</a>
+                        <li><form action="{{ url_for('bookings.deleteSlot', id=booking['id']) }}" method="post">
+                                <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+                            </form>
+                    </ul>
+                </th>
+            {% else %}
+            <th>False</th>
+            <th>N/A</th>
+            <th>N/A</th>
+            <th>
+                <ul id="actions">
+                    <li><form action="{{ url_for('bookings.deleteSlot', id=booking['id']) }}" method="post">
+                            <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+                        </form>
+                </ul>
+            </th>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+{% endblock %}
