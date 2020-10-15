@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block header %}
-  <h1>{% block title %}New Post{% endblock %}</h1>
-{% endblock %}
-
 {% block content %}
+<div class="mx-auto" style="width: 300px; margin-top: 10%;">
+  <h1 style="text-align:center;">Create Slot</h1>
   <form method="post">
-    <label for="dateTime">Available slots</label>
-    <input type="datetime-local" name="dateTime" id="dateTime" value="{{ request.form['dateTime']}}">
-
-    <input type="submit" value="Save">
+    <div class="form-group">
+      <label for="dateTime">Date and Time</label>
+      <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" value="{{ request.form['dateTime']}}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+</div>
 {% endblock %}
