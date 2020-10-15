@@ -1,26 +1,35 @@
 {% extends 'base.html' %}
 
-{% block header %}
-  <h1>{% block title %}Bookings{% endblock %}</h1>
-  {% if g.user %}
-  <a class="action" href="{{ url_for('bookings.create') }}">Book appointment</a>
-  {% endif %}
-{% endblock %}
-
-{% block content %}
-  {% for booking in bookings %}
-  <article class="booking">
-    <header>
-      <div>
-        <h1>{{ booking['datetime'] }}</h1>
-      {% if g.user['id'] == booking['patient_id'] %}
-        <a class="action" href="{{ url_for('bookings.update', id=booking['id']) }}">Edit</a>
-      {% endif %}
-    </header>
-    <p class="reason">{{ booking['reason'] }}</p>
-  </article>
-    {% if not loop.last %}
-      <hr>
+<body>
+  {% block content %}
+    <div class="mx-auto" style="width: 50%; text-align:center; margin-top:5%;">
+    {% if not bookings %}
+      <h1>You have no bookings</h1>
     {% endif %}
-  {% endfor %}
-{% endblock %}
+    {% for booking in bookings %}
+    <div class="border border-light" style="padding: 15px;">
+      <article class="booking">
+        <header>
+          <div>
+            <h1>{{ booking['datetime'] }}</h1>
+        </header>
+        <p class="reason">{{ booking['reason'] }}</p>
+        {% if g.user['id'] == booking['patient_id'] %}
+          <form method="get" action="{{ url_for('bookings.update', id=booking['id']) }}">
+            <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
+          </form>
+        {% endif %}
+      </article>
+      {% if not loop.last %}
+        <hr>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% if g.user %}
+    <form method="get" action="{{ url_for('bookings.create') }}">
+      <button style="margin-top: 20px;" type="submit" class="btn btn-success">Book appointment</button>
+    </form>
+    {% endif %}
+    </div>
+  {% endblock %}
+</body>
