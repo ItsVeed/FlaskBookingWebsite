@@ -8,9 +8,9 @@ from flaskr.db import get_db
 
 bp = Blueprint('bookings', __name__)
 
-@bp.route('/')
+@bp.route('/booking')
 @login_required
-def index():
+def booking():
     if g.user['admin'] == 1:
         return redirect(url_for('bookings.admin'))
     
@@ -22,7 +22,7 @@ def index():
         (g.user['id'],)
     ).fetchall()
 
-    return render_template('bookings/index.html', bookings=bookings)
+    return render_template('bookings/booking.html', bookings=bookings)
 
 def delete_outdated_bookingSlots():
     pass
@@ -57,7 +57,7 @@ def create():
                 (1, g.user['id'], reason, SlotId)
             )
             db.commit()
-            return redirect(url_for('bookings.index'))
+            return redirect(url_for('bookings.booking'))
 
     return render_template('bookings/create.html', AvailableBookings=AvailableBookings)
 
@@ -99,7 +99,7 @@ def update(id):
                 (reason, id)
             )
             db.commit()
-            return redirect(url_for('bookings.index'))
+            return redirect(url_for('bookings.booking'))
 
     return render_template('bookings/update.html', booking=booking)
 
@@ -125,7 +125,7 @@ def updateAdmin(id):
                 (reason, id)
             )
             db.commit()
-            return redirect(url_for('bookings.index'))
+            return redirect(url_for('bookings.booking'))
 
     return render_template('bookings/update.html', booking=booking)
 
@@ -140,7 +140,7 @@ def delete(id):
         (0, None, None, id)
     )
     db.commit()
-    return redirect(url_for('bookings.index'))
+    return redirect(url_for('bookings.booking'))
 
 @bp.route('/admin')
 @login_required
