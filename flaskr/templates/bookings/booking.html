@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+<body>
+  {% block content %}
+    <div class="mx-auto" style="width: 50%; text-align:center; margin-top:5%;">
+    {% if not bookings %}
+      <h1>You have no bookings</h1>
+    {% endif %}
+    <div class="overflow-auto" style="height: 600px; overflow-wrap:break-word;">
+      {% for booking in bookings %}
+      <div style="padding: 15px;">
+        <article class="booking">
+          <header>
+            <div>
+              <h3>Time/Date : {{ booking['datetime'] }}</h1>
+          </header>
+          <p>Reason</p>
+          <p class="">{{ booking['reason'] }}</p>
+          {% if g.user['id'] == booking['patient_id'] %}
+            <form method="get" action="{{ url_for('bookings.update', id=booking['id']) }}">
+              <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
+            </form>
+          {% endif %}
+        </article>
+        {% if not loop.last %}
+          <hr>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% if g.user %}
+    <form method="get" action="{{ url_for('bookings.create') }}">
+      <button style="margin-top: 20px;" type="submit" class="btn btn-success">Book appointment</button>
+    </form>
+    {% endif %}
+    </div>
+  {% endblock %}
+</body>

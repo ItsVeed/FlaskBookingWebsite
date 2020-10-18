@@ -31,6 +31,9 @@ def create_app(test_config=None):
 
     from . import appointments
     app.register_blueprint(appointments.bp)
+
+    from . import landing
+    app.register_blueprint(landing.bp)
     app.add_url_rule('/', endpoint='index')
 
     return app
