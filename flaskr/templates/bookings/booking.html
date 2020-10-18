@@ -6,25 +6,28 @@
     {% if not bookings %}
       <h1>You have no bookings</h1>
     {% endif %}
-    {% for booking in bookings %}
-    <div class="border border-light" style="padding: 15px;">
-      <article class="booking">
-        <header>
-          <div>
-            <h1>{{ booking['datetime'] }}</h1>
-        </header>
-        <p class="reason">{{ booking['reason'] }}</p>
-        {% if g.user['id'] == booking['patient_id'] %}
-          <form method="get" action="{{ url_for('bookings.update', id=booking['id']) }}">
-            <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
-          </form>
+    <div class="overflow-auto" style="height: 600px; overflow-wrap:break-word;">
+      {% for booking in bookings %}
+      <div style="padding: 15px;">
+        <article class="booking">
+          <header>
+            <div>
+              <h3>Time/Date : {{ booking['datetime'] }}</h1>
+          </header>
+          <p>Reason</p>
+          <p class="">{{ booking['reason'] }}</p>
+          {% if g.user['id'] == booking['patient_id'] %}
+            <form method="get" action="{{ url_for('bookings.update', id=booking['id']) }}">
+              <button type="submit" class="btn btn-secondary btn-sm">Edit</button>
+            </form>
+          {% endif %}
+        </article>
+        {% if not loop.last %}
+          <hr>
         {% endif %}
-      </article>
-      {% if not loop.last %}
-        <hr>
-      {% endif %}
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
     {% if g.user %}
     <form method="get" action="{{ url_for('bookings.create') }}">
       <button style="margin-top: 20px;" type="submit" class="btn btn-success">Book appointment</button>

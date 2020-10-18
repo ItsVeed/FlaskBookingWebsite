@@ -34,6 +34,7 @@
         {% endif %}
         {% endif %}
       </ul>
+
       <ul class="navbar-nav ml-auto">
         {% if g.user %}
         <li class="nav-item">
@@ -53,7 +54,7 @@
 
 <section class="content">
   <header>
-    {% block header %}{% endblock %}
+    
   </header>
   {% for message in get_flashed_messages() %}
     <div class="alert alert-warning" role="alert">{{ message }}</div>
